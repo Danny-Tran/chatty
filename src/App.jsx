@@ -66,22 +66,24 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // console.log("componentDidMount <App />");
+  
    //////CONNECTING TO WEBSOCKET////////
-    const url = new WebSocket ("ws://localhost:3001")
-    url.onopen = () =>{
+    this.socket = new WebSocket ("ws://localhost:3001")
+    this.socket.onopen = () =>{
+      this.socket.send('FROM CLIENT SIDE')
+      
       console.log("Connected to server")
     }
 
-    setTimeout(() => {
-      // console.log("Simulating incoming message");
-      // Add a new message to the list of messages in the data store
-      const newMessage = {id: 10, username: "Michelle", content: "Hello there!"};
-      const messages = this.state.messages.concat(newMessage)
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
-      this.setState({messages: messages})
-    }, 3000);
+    // setTimeout(() => {
+    //   // console.log("Simulating incoming message");
+    //   // Add a new message to the list of messages in the data store
+    //   const newMessage = {id: 10, username: "Michelle", content: "Hello there!"};
+    //   const messages = this.state.messages.concat(newMessage)
+    //   // Update the state of the app component.
+    //   // Calling setState will trigger a call to render() in App and all child components.
+    //   this.setState({messages: messages})
+    // }, 3000);
   }
 
   /////////// FUNCTION THAT TAKE CARE OF ENTER ////////////
@@ -90,14 +92,16 @@ class App extends Component {
     const newM = evt.target.elements.textbox;
     const user = evt.target.elements.user;
     const oldMessages = this.state.messages;
+    const newMessage = {
+      username: user.value,
+      content: newM.value,
+    }
     const newMessages = [
       ...oldMessages,
-      {
-        username: user.value,
-        content: newM.value,
-      }
+      newMessage
     ];
     this.setState({messages: newMessages});
+    this.socket.send(`User: ${newMessage.username} said ${newMessage.content}`)
     newM.value="";
   }
 

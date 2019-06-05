@@ -79,6 +79,7 @@ class App extends Component {
     }, 3000);
   }
 
+    /////////// FUNCTION THAT TAKE CARE OF ENTER ////////////
   onSubmit = evt => {
     evt.preventDefault();
     const newM = evt.target.elements.textbox;

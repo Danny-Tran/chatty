@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx'
-// import Message from './Message.jsx';
 import MessageList from './MessageList.jsx'
 
 
@@ -67,9 +66,15 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log("componentDidMount <App />");
+    // console.log("componentDidMount <App />");
+   //////CONNECTING TO WEBSOCKET////////
+    const url = new WebSocket ("ws://localhost:3001")
+    url.onopen = () =>{
+      console.log("Connected to server")
+    }
+
     setTimeout(() => {
-      console.log("Simulating incoming message");
+      // console.log("Simulating incoming message");
       // Add a new message to the list of messages in the data store
       const newMessage = {id: 10, username: "Michelle", content: "Hello there!"};
       const messages = this.state.messages.concat(newMessage)
@@ -79,7 +84,7 @@ class App extends Component {
     }, 3000);
   }
 
-    /////////// FUNCTION THAT TAKE CARE OF ENTER ////////////
+  /////////// FUNCTION THAT TAKE CARE OF ENTER ////////////
   onSubmit = evt => {
     evt.preventDefault();
     const newM = evt.target.elements.textbox;

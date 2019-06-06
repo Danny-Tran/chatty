@@ -25,13 +25,14 @@ class App extends Component {
       console.log("Connected to server")
     }
 
+    ///// MESSGE COME FROM SERVER SIDE AND POSTING TO CLIENT SIDE /////
     this.socket.onmessage = (event) => {
       console.log(event.data);
       const obj = JSON.parse(event.data)
       const newMessage = {
-        id:obj.id, 
-        username:obj.username, 
-        content:obj.content
+        id: obj.id, 
+        username: obj.username, 
+        content: obj.content
       }
       
       this.setState({messages: [...this.state.messages, newMessage]})

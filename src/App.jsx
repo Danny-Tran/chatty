@@ -11,58 +11,8 @@ class App extends Component {
     this.state = {
       loading:true,
       currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-        {
-          id:1,
-          username: "Bob",
-          content: "Has anyone seen my marbles?",
-        },
-        {
-          id:2,
-          username: "Anonymous",
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-        },
-        {
-          id:3,
-          type: "incomingMessage",
-          content: "I won't be impressed with technology until I can download food.",
-          username: "Anonymous1"
-        },
-        {
-          id:4,
-          type: "incomingNotification",
-          content: "Anonymous1 changed their name to nomnom",
-        },
-        {
-          id:5,
-          type: "incomingMessage",
-          content: "I wouldn't want to download Kraft Dinner. I'd be scared of cheese packet loss.",
-          username: "Anonymous2"
-        },
-        {
-          id:6,
-          type: "incomingMessage",
-          content: "...",
-          username: "nomnom"
-        },
-        {
-          id:7,
-          type: "incomingMessage",
-          content: "I'd love to download a fried egg, but I'm afraid encryption would scramble it",
-          username: "Anonymous2"
-        },
-        {
-          id:8,
-          type: "incomingMessage",
-          content: "This isn't funny. You're not funny",
-          username: "nomnom"
-        },
-        {
-          id:9,
-          type: "incomingNotification",
-          content: "Anonymous2 changed their name to NotFunny",
-        }
-      ]}
+      messages: []
+    }
   }
 
   componentDidMount() {
@@ -70,10 +20,23 @@ class App extends Component {
    //////CONNECTING TO WEBSOCKET////////
     this.socket = new WebSocket ("ws://localhost:3001")
     this.socket.onopen = () =>{
-      this.socket.send('FROM CLIENT SIDE')
+      // this.socket.send('FROM CLIENT SIDE')
       
       console.log("Connected to server")
     }
+
+    this.socket.onmessage = (event) => {
+      console.log(event.data);
+      const obj = JSON.parse(event.data)
+      const newMessage = {
+        id:obj.id, 
+        username:obj.username, 
+        content:obj.content
+      }
+      
+      this.setState({messages: [...this.state.messages, newMessage]})
+    }
+    
 
     // setTimeout(() => {
     //   // console.log("Simulating incoming message");
@@ -93,6 +56,7 @@ class App extends Component {
     const user = evt.target.elements.user;
     const oldMessages = this.state.messages;
     const newMessage = {
+      
       username: user.value,
       content: newM.value,
     }
@@ -100,8 +64,8 @@ class App extends Component {
       ...oldMessages,
       newMessage
     ];
-    this.setState({messages: newMessages});
-    this.socket.send(`User: ${newMessage.username} said ${newMessage.content}`)
+    
+    this.socket.send(JSON.stringify(newMessage))
     newM.value="";
   }
 

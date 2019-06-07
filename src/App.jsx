@@ -10,7 +10,7 @@ class App extends Component {
     super(props);
     this.state = {
       loading:true,
-      currentUser: 'jjjj', // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: 'anonymous', // optional. if currentUser is not defined, it means the user is Anonymous
       messages: []
     }
   }
@@ -43,7 +43,7 @@ class App extends Component {
     if (evt.key == 'Enter') {
       const nameInput = document.getElementById("chatbar-user")
       const newUserName = nameInput.value
-      const notification = (this.state.currentUser + "changed the username to" + newUserName)
+      const notification = (this.state.currentUser + " changed the username to " + newUserName)
       const nChange = {
         type: "postNotification",
         content:notification
@@ -52,6 +52,11 @@ class App extends Component {
       this.setState({currentUser:newUserName})
     }
   }
+
+  // clientCount = evt => {
+  // const count = JSON.parse(evt)
+  // this.setState({client:count})    
+  // }
 
   componentDidMount() {
   //////CONNECTING TO WEBSOCKET////////
@@ -66,23 +71,39 @@ class App extends Component {
     this.socket.onmessage = (event) => {
       console.log(event.data);
       const obj = JSON.parse(event.data)
-      const newMessage = {
-        id: obj.id, 
-        username: obj.username, 
-        content: obj.content
-      }
-      this.setState({messages: [...this.state.messages, newMessage]})
+      
+      // if (obj.type === 'incomingMessage') {
+        const newMessage = {
+          id: obj.id, 
+          username: obj.username, 
+          content: obj.content
+        }
+        this.setState({messages: [...this.state.messages, newMessage]}) 
+        // return
+      // }
+
+      // if (obj.type === "counter") {
+      //   const count = {
+      //     count: obj.count
+      //   }
+      //   this.setState({counter:[...this.state.counter, count]})
+      //   return
+      // }
     }
   }
 
-  /////////// FUNCTION THAT TAKE CARE OF ENTER IN MESSAGE////////////
+  
   
 
   render() {
     return (
       <div>
+        <nav className="navbar">
+          <a href="/" className="navbar-brand">Chatty</a>
+          <p className="user">{this.state.counter} online</p>
+        </nav>
         <MessageList messages={this.state.messages} />
-        <ChatBar username={this.state.currentUser.name} onSubmit={this.onSubmit} />
+        <ChatBar username={this.state.currentUser.name} onSubmit={this.onSubmit} onChange={this.onChange} />
     </div>
     );
   }

@@ -72,23 +72,20 @@ class App extends Component {
       console.log(event.data);
       const obj = JSON.parse(event.data)
       
-      // if (obj.type === 'incomingMessage') {
+      if (obj.type === 'incomingMessage') {
         const newMessage = {
           id: obj.id, 
           username: obj.username, 
           content: obj.content
         }
         this.setState({messages: [...this.state.messages, newMessage]}) 
-        // return
-      // }
+        return
+      }
 
-      // if (obj.type === "counter") {
-      //   const count = {
-      //     count: obj.count
-      //   }
-      //   this.setState({counter:[...this.state.counter, count]})
-      //   return
-      // }
+      if (obj.type === "counter") {
+        this.setState({counter:obj.counter})
+        return
+      }
     }
   }
 

@@ -81,6 +81,7 @@ class App extends Component {
         this.setState({messages: [...this.state.messages, newMessage]}) 
         return
       }
+      
 
       if (obj.type === "counter") {
         this.setState({counter:obj.counter})

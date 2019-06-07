@@ -67,12 +67,17 @@ class App extends Component {
       console.log("Connected to server")
     }
 
+    setTimeout(() => {
+      alert("please pick a Username")
+      
+    }, 1000);
+
     ///// MESSGE COME FROM SERVER SIDE AND POSTING TO CLIENT SIDE /////
     this.socket.onmessage = (event) => {
       console.log(event.data);
       const obj = JSON.parse(event.data)
       
-      if (obj.type === 'incomingMessage') {
+      if (obj.type === "incomingMessage" || obj.type === "incomingNotification") {
         const newMessage = {
           id: obj.id, 
           username: obj.username, 
@@ -82,6 +87,15 @@ class App extends Component {
         return
       }
       
+      // if (obj.type === "incomingNotification") {
+      //   const newMessage = {
+      //     id: obj.id, 
+      //     username: obj.username, 
+      //     content: obj.content
+      //   }
+      //   this.setState({messages: [...this.state.messages, newMessage]}) 
+      //   return
+      // }
 
       if (obj.type === "counter") {
         this.setState({counter:obj.counter})
@@ -98,10 +112,10 @@ class App extends Component {
       <div>
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
-          <p className="user">{this.state.counter} online</p>
+          <p className="user">{this.state.counter} Chatty User Online</p>
         </nav>
-        <MessageList messages={this.state.messages} />
-        <ChatBar username={this.state.currentUser.name} onSubmit={this.onSubmit} onChange={this.onChange} />
+        <MessageList messages={this.state.messages}/>
+        <ChatBar username={this.state.currentUser} onSubmit={this.onSubmit} onChange={this.onChange} />
     </div>
     );
   }

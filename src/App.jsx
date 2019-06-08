@@ -15,6 +15,7 @@ class App extends Component {
     }
   }
 
+  /// function that handle message bar ///
   onSubmit = evt => {
     if (evt.key == "Enter") {
       // evt.preventDefault();
@@ -32,13 +33,13 @@ class App extends Component {
         ...oldMessages,
         newMessage
       ];
-    
-      
-    newM.value="";
-    this.socket.send(JSON.stringify(newMessage))
+          
+      newM.value="";
+      this.socket.send(JSON.stringify(newMessage))
     }
   }
 
+  /// Function that handle username change ///
   onChange = evt => {
     if (evt.key == 'Enter') {
       const nameInput = document.getElementById("chatbar-user")
@@ -53,26 +54,15 @@ class App extends Component {
     }
   }
 
-  
-
-  // clientCount = evt => {
-  // const count = JSON.parse(evt)
-  // this.setState({client:count})    
-  // }
-
   componentDidMount() {
-  //////CONNECTING TO WEBSOCKET////////
     this.socket = new WebSocket ("ws://localhost:3001")
     this.socket.onopen = () =>{
-      // this.socket.send('FROM CLIENT SIDE')
-      
       console.log("Connected to server")
     }
 
-    // setTimeout(() => {
-    //   alert("please pick a Username")
-      
-    // }, 1000);
+    setTimeout(() => {
+      alert("please pick a Username")
+    }, 1000);
 
     ///// MESSGE COME FROM SERVER SIDE AND POSTING TO CLIENT SIDE /////
     this.socket.onmessage = (event) => {
@@ -89,20 +79,13 @@ class App extends Component {
         return
       }
       
+      // user online counter
       if (obj.type === "counter") {
         this.setState({counter:obj.counter})
         return
       }
-
-      // if(obj.type === "user"){
-      //   this.setState({messages: [obj.mess]})
-      //   return
-      // }
     }
   }
-
-  
-  
 
   render() {
     return (

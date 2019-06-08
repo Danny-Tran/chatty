@@ -20,34 +20,30 @@ const wss = new SocketServer({ server });
 
 
 wss.on('connection', (ws) => {
-console.log('FROM SERVER SIDE');
-
-  
-  // update user online when connect
+ // update user online when connect
   wss.clients.forEach(client =>{
-  client.send(JSON.stringify({type:"counter" , counter: wss.clients.size}))
+    client.send(JSON.stringify({type:"counter" , counter: wss.clients.size}))
   })
 
   // message sending to client 
   ws.on('message', (message) => {
-  const content = JSON.parse(message);
-  content.id=uuidv4();
-  content.type = content.type.replace("post" , "incoming")
+    const content = JSON.parse(message);
+    content.id=uuidv4();
+    content.type = content.type.replace("post" , "incoming")
   
-  // loop for every client that connect
-  console.log(content);
-    wss.clients.forEach(client => {
-      client.send(JSON.stringify(content))
-    });
+    // loop for every client that connect
+    console.log(content);
+      wss.clients.forEach(client => {
+        client.send(JSON.stringify(content))
+      });
   })
 
   /// call back on disconnect, update user online when disconnect ///
   ws.on('close', () => {
     wss.clients.forEach(client =>{
-    client.send(JSON.stringify({type:"counter" , counter: wss.clients.size}))
+      client.send(JSON.stringify({type:"counter" , counter: wss.clients.size}))
     });
     console.log('Client disconnected')
-
   })
 });
 

@@ -53,6 +53,8 @@ class App extends Component {
     }
   }
 
+  
+
   // clientCount = evt => {
   // const count = JSON.parse(evt)
   // this.setState({client:count})    
@@ -67,10 +69,10 @@ class App extends Component {
       console.log("Connected to server")
     }
 
-    setTimeout(() => {
-      alert("please pick a Username")
+    // setTimeout(() => {
+    //   alert("please pick a Username")
       
-    }, 1000);
+    // }, 1000);
 
     ///// MESSGE COME FROM SERVER SIDE AND POSTING TO CLIENT SIDE /////
     this.socket.onmessage = (event) => {
@@ -87,20 +89,15 @@ class App extends Component {
         return
       }
       
-      // if (obj.type === "incomingNotification") {
-      //   const newMessage = {
-      //     id: obj.id, 
-      //     username: obj.username, 
-      //     content: obj.content
-      //   }
-      //   this.setState({messages: [...this.state.messages, newMessage]}) 
-      //   return
-      // }
-
       if (obj.type === "counter") {
         this.setState({counter:obj.counter})
         return
       }
+
+      // if(obj.type === "user"){
+      //   this.setState({messages: [obj.mess]})
+      //   return
+      // }
     }
   }
 

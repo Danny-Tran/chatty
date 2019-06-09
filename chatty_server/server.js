@@ -23,6 +23,7 @@ wss.on('connection', (ws) => {
   // message sending to client 
   ws.on('message', (message) => {
     const content = JSON.parse(message);
+    content.colour = "black"
     content.id=uuidv4();
     content.type = content.type.replace("post" , "incoming")
   

@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx'
 import MessageList from './MessageList.jsx'
 
-
-
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -18,10 +15,8 @@ class App extends Component {
   /// function that handle message bar ///
   onSubmit = evt => {
     if (evt.key == "Enter") {
-      // evt.preventDefault();
       const newM = document.getElementById("chatbar-msg");
       const msg = newM.value;
-     
       const oldMessages = this.state.messages;
       const username1 = this.state.currentUser
       const newMessage = {
@@ -33,7 +28,6 @@ class App extends Component {
         ...oldMessages,
         newMessage
       ];
-          
       newM.value="";
       this.socket.send(JSON.stringify(newMessage))
     }
@@ -66,6 +60,8 @@ class App extends Component {
 
     ///// MESSGE COME FROM SERVER SIDE AND POSTING TO CLIENT SIDE /////
     this.socket.onmessage = (event) => {
+      const colours = ["red","green","blue","magenta"]
+      const colour = colours[Math.floor(Math.random()*4)]
       console.log(event.data);
       const obj = JSON.parse(event.data)
       
@@ -73,13 +69,15 @@ class App extends Component {
         const newMessage = {
           id: obj.id, 
           username: obj.username, 
-          content: obj.content
+          content: obj.content,
+          colour: colour,
         }
+        console.log("this is message", newMessage)
         this.setState({messages: [...this.state.messages, newMessage]}) 
         return
       }
       
-      // user online counter
+      /// user online counter ///
       if (obj.type === "counter") {
         this.setState({counter:obj.counter})
         return

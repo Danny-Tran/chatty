@@ -8,7 +8,8 @@ class App extends Component {
     this.state = {
       loading:true,
       currentUser: 'Anonymous', 
-      messages: []
+      messages: [],
+      color:'black'
     }
   }
 
@@ -35,7 +36,7 @@ class App extends Component {
 
   /// Function that handle username change ///
   onChange = evt => {
-    if (evt.key == 'Enter') {
+      if (evt.key == 'Enter') {
       const nameInput = document.getElementById("chatbar-user")
       const newUserName = nameInput.value
       const notification = (this.state.currentUser + " changed the username to " + newUserName)
@@ -60,8 +61,6 @@ class App extends Component {
 
     ///// MESSGE COME FROM SERVER SIDE AND POSTING TO CLIENT SIDE /////
     this.socket.onmessage = (event) => {
-      const colours = ["red","green","blue","magenta"]
-      const colour = colours[Math.floor(Math.random()*4)]
       console.log(event.data);
       const obj = JSON.parse(event.data)
       
@@ -70,7 +69,6 @@ class App extends Component {
           id: obj.id, 
           username: obj.username, 
           content: obj.content,
-          colour: colour,
         }
         console.log("this is message", newMessage)
         this.setState({messages: [...this.state.messages, newMessage]}) 
@@ -84,6 +82,8 @@ class App extends Component {
       }
     }
   }
+
+
 
   render() {
     return (

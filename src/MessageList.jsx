@@ -1,20 +1,18 @@
 import React, {Component} from 'react';
 import Message from './Message.jsx';
 
-
 class MessageList extends Component{
     render (){
         const messages = this.props.messages.map(message => {
         return (<Message 
             key={message.id} 
-            username={message.username} 
+            username={message.username}
             content={message.content}
-            colour={message.colour} 
             />);
         })
         return(
             <main className="messages">
-                {messages}   
+               {messages} 
             </main>
         )
     }

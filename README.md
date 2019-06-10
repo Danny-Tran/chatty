@@ -10,8 +10,8 @@ Recreation of a chatroom! using React and Websocket.
 
 ### ScreenShots
 
-* (https://github.com/Danny-Tran/chatty/blob/master/doc/Chatty.gif)
-* (https://github.com/Danny-Tran/chatty/blob/master/doc/Chatty2.gif)
+* !["Gif of Sending Chat"](https://github.com/Danny-Tran/chatty/blob/master/doc/Chatty.gif)
+* !["Gif of Reciving Chat"](https://github.com/Danny-Tran/chatty/blob/master/doc/Chatty2.gif)
 
 ### Dependencies
 * React

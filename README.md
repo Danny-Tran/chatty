@@ -8,6 +8,11 @@ Recreation of a chatroom! using React and Websocket.
 4. Start Chatty server using npm start command inside chatty_server folder
 4. Go to http://localhost:3000 in your browser.
 
+### ScreenShots
+
+* (https://github.com/Danny-Tran/chatty/blob/master/doc/Chatty.gif)
+* (https://github.com/Danny-Tran/chatty/blob/master/doc/Chatty2.gif)
+
 ### Dependencies
 * React
 * Webpack
